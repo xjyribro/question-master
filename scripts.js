@@ -2,7 +2,7 @@ import { flexiableOperators, questions } from "./questions.js"
 
 const FIRST = "first"
 const SECOND = "second"
-const OPERAND = "operand"
+const OPERATOR = "operator"
 const ANSWER = "answer"
 const SUBANSWER = "subAnswer"
 const COMMENT = "comment"
@@ -35,6 +35,20 @@ document.addEventListener("DOMContentLoaded", function () {
     showSubQuestion()
   }
 
+  function createOperatorSelect() {
+    const operators = ['+', '-', 'x', '/'];
+    const selectElement = document.createElement('select');
+
+    operators.forEach(operator => {
+        const optionElement = document.createElement('option');
+        optionElement.value = operator;
+        optionElement.textContent = operator;
+        selectElement.appendChild(optionElement);
+    });
+
+    return selectElement;
+}
+
   function showSubQuestion() {
     const subQ =
       questions[currentQuestionIndex]["subQuestions"][currentSubQuestionIndex]
@@ -58,19 +72,17 @@ document.addEventListener("DOMContentLoaded", function () {
       const workingRow = document.createElement("div")
       const firstOperandInput = document.createElement("input")
       const secondOperandInput = document.createElement("input")
-      const operatorInput = document.createElement("input")
+      const operatorInput = createOperatorSelect()
       const answerInput = document.createElement("input")
       firstOperandInput.setAttribute("type", "text")
       secondOperandInput.setAttribute("type", "text")
-      operatorInput.setAttribute("type", "text")
       answerInput.setAttribute("type", "text")
-      firstOperandInput.setAttribute("id", FIRST + i.toString())
-      secondOperandInput.setAttribute("id", SECOND + i.toString())
-      operatorInput.setAttribute("id", OPERAND + i.toString())
-      answerInput.setAttribute("id", ANSWER + i.toString())
+      firstOperandInput.setAttribute("id", FIRST + currentSubQuestionIndex.toString() + i.toString())
+      secondOperandInput.setAttribute("id", SECOND + currentSubQuestionIndex.toString() + i.toString())
+      operatorInput.setAttribute("id", OPERATOR + currentSubQuestionIndex.toString() + i.toString())
+      answerInput.setAttribute("id", ANSWER + currentSubQuestionIndex.toString() + i.toString())
       firstOperandInput.style.width = sqrWidth
       secondOperandInput.style.width = sqrWidth
-      operatorInput.style.width = sqrWidth
       answerInput.style.width = sqrWidth
 
       workingRow.appendChild(firstOperandInput)
@@ -134,16 +146,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let isFilled = workings.every((_, i) => {
       const firstInput = document
-        .getElementById(FIRST + i.toString())
+        .getElementById(FIRST + currentSubQuestionIndex.toString() + i.toString())
         .value.trim()
       const secondInput = document
-        .getElementById(SECOND + i.toString())
+        .getElementById(SECOND + currentSubQuestionIndex.toString() + i.toString())
         .value.trim()
       const operatorInput = document
-        .getElementById(OPERAND + i.toString())
+        .getElementById(OPERATOR + currentSubQuestionIndex.toString() + i.toString())
         .value.trim()
       const answerInput = document
-        .getElementById(ANSWER + i.toString())
+        .getElementById(ANSWER + currentSubQuestionIndex.toString() + i.toString())
         .value.trim()
 
       return (
@@ -164,16 +176,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let isCorrect = workings.every((working, i) => {
       const firstInput = document
-        .getElementById(FIRST + i.toString())
+        .getElementById(FIRST + currentSubQuestionIndex.toString() + i.toString())
         .value.trim()
       const secondInput = document
-        .getElementById(SECOND + i.toString())
+        .getElementById(SECOND + currentSubQuestionIndex.toString() + i.toString())
         .value.trim()
       const operatorInput = document
-        .getElementById(OPERAND + i.toString())
+        .getElementById(OPERATOR + currentSubQuestionIndex.toString() + i.toString())
         .value.trim()
       const answerInput = document
-        .getElementById(ANSWER + i.toString())
+        .getElementById(ANSWER + currentSubQuestionIndex.toString() + i.toString())
         .value.trim()
 
       return checkWorkingCorrect(
