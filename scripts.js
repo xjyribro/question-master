@@ -7,91 +7,102 @@ const ANSWER = "answer"
 const SUBANSWER = "subAnswer"
 const COMMENT = "comment"
 const HEADING = "heading"
+const WORKINGS = "workings"
+
+const sqrWidth = "20px"
 
 document.addEventListener("DOMContentLoaded", function () {
   const mainSection = document.querySelector("main")
   const promptText = document.createElement("p")
   const header = document.getElementById(HEADING)
-
-  let currentQuestionIndex = 0
-  let currentSubQuestionIndex = 0
-
-  const sqrWidth = "20px"
-
+  const allAnswers = [...Array(questions.length)].map((e) => [])
+  let currQIndex = 0
+  let currSubQIndex = 0
   let button = document.createElement("button")
   button.textContent = "Click here to start"
   button.addEventListener("click", startQuiz)
   mainSection.appendChild(button)
 
   function startQuiz() {
-    header.remove()
     button.textContent = "Check answer"
     startQuestion()
   }
 
   function startQuestion() {
-    promptText.textContent = questions[currentQuestionIndex]["prompt"]
+    header.textContent = `Question ${currQIndex + 1}`
+    promptText.textContent = questions[currQIndex]["prompt"]
     mainSection.insertBefore(promptText, button)
     showSubQuestion()
   }
 
   function createOperatorSelect() {
-    const operators = ['+', '-', 'x', '/'];
-    const selectElement = document.createElement('select');
+    const operators = ["+", "-", "x", "/"]
+    const selectElement = document.createElement("select")
 
-    operators.forEach(operator => {
-        const optionElement = document.createElement('option');
-        optionElement.value = operator;
-        optionElement.textContent = operator;
-        selectElement.appendChild(optionElement);
-    });
+    operators.forEach((operator) => {
+      const optionElement = document.createElement("option")
+      optionElement.value = operator
+      optionElement.textContent = operator
+      selectElement.appendChild(optionElement)
+    })
 
-    return selectElement;
-}
+    return selectElement
+  }
 
   function showSubQuestion() {
-    const subQ =
-      questions[currentQuestionIndex]["subQuestions"][currentSubQuestionIndex]
+    const subQ = questions[currQIndex]["subQuestions"][currSubQIndex]
     const subQuestionText = document.createElement("p")
     subQuestionText.textContent = subQ.question
 
     const finalAnswerinput = document.createElement("input")
+    const subQuestionWorkings = document.createElement("div")
+    subQuestionWorkings.setAttribute("id", WORKINGS + currSubQIndex.toString())
     const comment = document.createElement("p")
     comment.setAttribute("id", COMMENT)
     comment.style.fontWeight = "600"
     finalAnswerinput.setAttribute("type", "text")
-    finalAnswerinput.setAttribute(
-      "id",
-      SUBANSWER + currentSubQuestionIndex.toString()
-    )
+    finalAnswerinput.setAttribute("id", SUBANSWER + currSubQIndex.toString())
     finalAnswerinput.placeholder = "Final answer"
 
     mainSection.insertBefore(subQuestionText, button)
 
     subQ.working.forEach((_, i) => {
       const workingRow = document.createElement("div")
-      const firstOperandInput = document.createElement("input")
-      const secondOperandInput = document.createElement("input")
+      const firstInput = document.createElement("input")
+      const secondInput = document.createElement("input")
       const operatorInput = createOperatorSelect()
       const answerInput = document.createElement("input")
-      firstOperandInput.setAttribute("type", "text")
-      secondOperandInput.setAttribute("type", "text")
+      firstInput.setAttribute("type", "text")
+      secondInput.setAttribute("type", "text")
       answerInput.setAttribute("type", "text")
-      firstOperandInput.setAttribute("id", FIRST + currentSubQuestionIndex.toString() + i.toString())
-      secondOperandInput.setAttribute("id", SECOND + currentSubQuestionIndex.toString() + i.toString())
-      operatorInput.setAttribute("id", OPERATOR + currentSubQuestionIndex.toString() + i.toString())
-      answerInput.setAttribute("id", ANSWER + currentSubQuestionIndex.toString() + i.toString())
-      firstOperandInput.style.width = sqrWidth
-      secondOperandInput.style.width = sqrWidth
+      firstInput.setAttribute(
+        "id",
+        FIRST + currSubQIndex.toString() + i.toString()
+      )
+      secondInput.setAttribute(
+        "id",
+        SECOND + currSubQIndex.toString() + i.toString()
+      )
+      operatorInput.setAttribute(
+        "id",
+        OPERATOR + currSubQIndex.toString() + i.toString()
+      )
+      answerInput.setAttribute(
+        "id",
+        ANSWER + currSubQIndex.toString() + i.toString()
+      )
+      firstInput.style.width = sqrWidth
+      secondInput.style.width = sqrWidth
       answerInput.style.width = sqrWidth
 
-      workingRow.appendChild(firstOperandInput)
+      workingRow.appendChild(firstInput)
       workingRow.appendChild(operatorInput)
-      workingRow.appendChild(secondOperandInput)
+      workingRow.appendChild(secondInput)
       workingRow.append("=")
       workingRow.appendChild(answerInput)
-      mainSection.insertBefore(workingRow, button)
+      subQuestionWorkings.appendChild(workingRow)
     })
+    mainSection.insertBefore(subQuestionWorkings, button)
     mainSection.insertBefore(finalAnswerinput, button)
     mainSection.insertBefore(comment, button)
     const newButton = button.cloneNode(true)
@@ -134,28 +145,28 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function checkAnswer() {
-    const subQs = questions[currentQuestionIndex]["subQuestions"]
-    const subQ = subQs[currentSubQuestionIndex]
+    const subQs = questions[currQIndex]["subQuestions"]
+    const subQ = subQs[currSubQIndex]
     const workings = subQ.working
     const ans = subQ.answer
 
     const answerInput = document.getElementById(
-      SUBANSWER + currentSubQuestionIndex.toString()
+      SUBANSWER + currSubQIndex.toString()
     )
     const comment = document.getElementById(COMMENT)
 
     let isFilled = workings.every((_, i) => {
       const firstInput = document
-        .getElementById(FIRST + currentSubQuestionIndex.toString() + i.toString())
+        .getElementById(FIRST + currSubQIndex.toString() + i.toString())
         .value.trim()
       const secondInput = document
-        .getElementById(SECOND + currentSubQuestionIndex.toString() + i.toString())
+        .getElementById(SECOND + currSubQIndex.toString() + i.toString())
         .value.trim()
       const operatorInput = document
-        .getElementById(OPERATOR + currentSubQuestionIndex.toString() + i.toString())
+        .getElementById(OPERATOR + currSubQIndex.toString() + i.toString())
         .value.trim()
       const answerInput = document
-        .getElementById(ANSWER + currentSubQuestionIndex.toString() + i.toString())
+        .getElementById(ANSWER + currSubQIndex.toString() + i.toString())
         .value.trim()
 
       return (
@@ -174,20 +185,25 @@ document.addEventListener("DOMContentLoaded", function () {
       return
     }
 
+    const workingRows = []
+
     let isCorrect = workings.every((working, i) => {
       const firstInput = document
-        .getElementById(FIRST + currentSubQuestionIndex.toString() + i.toString())
+        .getElementById(FIRST + currSubQIndex.toString() + i.toString())
         .value.trim()
       const secondInput = document
-        .getElementById(SECOND + currentSubQuestionIndex.toString() + i.toString())
+        .getElementById(SECOND + currSubQIndex.toString() + i.toString())
         .value.trim()
       const operatorInput = document
-        .getElementById(OPERATOR + currentSubQuestionIndex.toString() + i.toString())
+        .getElementById(OPERATOR + currSubQIndex.toString() + i.toString())
         .value.trim()
       const answerInput = document
-        .getElementById(ANSWER + currentSubQuestionIndex.toString() + i.toString())
+        .getElementById(ANSWER + currSubQIndex.toString() + i.toString())
         .value.trim()
 
+      workingRows.push(
+        `${firstInput} ${operatorInput} ${secondInput} = ${answerInput}`
+      )
       return checkWorkingCorrect(
         working,
         firstInput,
@@ -203,7 +219,9 @@ document.addEventListener("DOMContentLoaded", function () {
       comment.textContent = "Correct!"
       comment.style.color = "green"
       button.removeEventListener("click", checkAnswer)
-      if (subQs.length - 1 === currentSubQuestionIndex) {
+      allAnswers[currQIndex].push(workingRows)
+      convertInputsToText(workingRows)
+      if (subQs.length - 1 === currSubQIndex) {
         button.addEventListener("click", nextQuestion)
         button.textContent = "Next Question"
       } else {
@@ -216,38 +234,134 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  function convertInputsToText(workingRows) {
+    const workings = document.getElementById(
+      WORKINGS + currSubQIndex.toString()
+    )
+    const answers = document.createElement("div")
+    workingRows.forEach((row) => {
+      const workingRow = document.createElement("p")
+      workingRow.textContent = row
+      answers.appendChild(workingRow)
+    })
+    mainSection.replaceChild(answers, workings)
+
+    const answerInput = document.getElementById(
+      SUBANSWER + currSubQIndex.toString()
+    )
+    answerInput.remove()
+  }
+
   function nextSubQuestion() {
     const comment = document.getElementById(COMMENT)
     comment.remove()
-    currentSubQuestionIndex++
+    currSubQIndex++
     showSubQuestion()
   }
 
   function completeQuiz() {
-    currentQuestionIndex = 0
+    currQIndex = 0
     header.textContent = "Congratulations!"
     mainSection.insertBefore(header, button)
     const newButton = button.cloneNode(true)
+    newButton.textContent = "Review answers"
+    newButton.addEventListener("click", reviewQuiz)
+    button.parentNode.replaceChild(newButton, button)
+    button = newButton
+  }
+
+  function previousReviewQuestion() {
+    clearMainSectionContent()
+    currQIndex--
+    showQuestionWithAnswers()
+    createQToggle()
+  }
+
+  function nextReviewQuestion() {
+    clearMainSectionContent()
+    currQIndex++
+    showQuestionWithAnswers()
+    createQToggle()
+  }
+
+  function createQToggle() {
+    const qToggleRow = document.createElement("div")
+    qToggleRow.style.padding = "16px"
+    if (currQIndex > 0) {
+      const previousButton = document.createElement("button")
+      previousButton.textContent = "Previous"
+      previousButton.addEventListener("click", previousReviewQuestion)
+      qToggleRow.appendChild(previousButton)
+    }
+    if (currQIndex + 1 < questions.length) {
+      const nextButton = document.createElement("button")
+      nextButton.textContent = "Next"
+      nextButton.addEventListener("click", nextReviewQuestion)
+      qToggleRow.appendChild(nextButton)
+    }
+    mainSection.insertBefore(qToggleRow, button)
+  }
+
+  function reviewQuiz() {
+    const newButton = button.cloneNode(true)
+    newButton.textContent = "Reset quiz"
+    newButton.addEventListener("click", resetQuiz)
+    button.parentNode.replaceChild(newButton, button)
+    button = newButton
+    showQuestionWithAnswers()
+    createQToggle()
+  }
+
+  function showQuestionWithAnswers() {
+    header.textContent = `Question ${currQIndex + 1}`
+    promptText.textContent = questions[currQIndex]["prompt"]
+    mainSection.insertBefore(promptText, button)
+    const subQuestions = questions[currQIndex]["subQuestions"]
+
+    subQuestions.forEach((subQ, i) => {
+      const subQuestionText = document.createElement("p")
+      subQuestionText.textContent = subQ.question
+      const workingRows = document.createElement("div")
+      const workingRow = allAnswers[currQIndex][i]
+      workingRow.forEach((row) => {
+        const workingRow = document.createElement("p")
+        workingRow.textContent = row
+        workingRows.appendChild(workingRow)
+      })
+      mainSection.insertBefore(subQuestionText, button)
+      mainSection.insertBefore(workingRows, button)
+    })
+  }
+
+  function resetQuiz() {
+    currQIndex = 0
+    header.textContent = "Start quiz"
+    clearMainSectionContent()
+    const newButton = button.cloneNode(true)
+    newButton.textContent = "Click here to start"
     button.parentNode.replaceChild(newButton, button)
     newButton.addEventListener("click", startQuiz)
     button = newButton
-
   }
 
   function nextQuestion() {
-    const mainSection = document.querySelector("main")
-    const children = Array.from(mainSection.children)
-    children.forEach((child) => {
-      if (child.tagName.toLowerCase() !== "button") {
-        mainSection.removeChild(child)
-      }
-    })
-    currentQuestionIndex++
-    currentSubQuestionIndex = 0
-    if (currentQuestionIndex === questions.length) {
+    clearMainSectionContent()
+    currQIndex++
+    currSubQIndex = 0
+    if (currQIndex === questions.length) {
       completeQuiz()
     } else {
       startQuestion()
     }
+  }
+
+  const elementsToIgnore = ['button', 'h2']
+  function clearMainSectionContent() {
+    const children = Array.from(mainSection.children)
+    children.forEach((child) => {
+      if (!elementsToIgnore.includes(child.tagName.toLowerCase())) {
+        mainSection.removeChild(child)
+      }
+    })
   }
 })
