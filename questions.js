@@ -71,87 +71,87 @@ export const questions = [
       }
     ]
   },
-  // {
-  //   prompt: `There are ten children. Each child is pulling a wagon.\nThere are five blocks in each wagon.\nEach child holds three kites.`,
-  //   subQuestions: [
-  //     {
-  //       question: "How many blocks are there altogether?",
-  //       working: [
-  //         {
-  //           operands: [10, 5],
-  //           operator: "x",
-  //           answer: 50
-  //         }
-  //       ],
-  //       answer: 50
-  //     },
-  //     {
-  //       question: "How many kites are there altogether?",
-  //       working: [
-  //         {
-  //           operands: [10, 3],
-  //           operator: "x",
-  //           answer: 30
-  //         }
-  //       ],
-  //       answer: 30
-  //     }
-  //   ]
-  // },
-  // {
-  //   prompt: `There are three girls and five boys. Each child has ten balloons.`,
-  //   subQuestions: [
-  //     {
-  //       question: "How many balloons do the girls have?",
-  //       working: [
-  //         {
-  //           operands: [3, 10],
-  //           operator: "x",
-  //           answer: 30
-  //         }
-  //       ],
-  //       answer: 30
-  //     },
-  //     {
-  //       question: "How many balloons do the boys have?",
-  //       working: [
-  //         {
-  //           operands: [5, 10],
-  //           operator: "x",
-  //           answer: 50
-  //         }
-  //       ],
-  //       answer: 50
-  //     },
-  //     {
-  //       question: `How many balloons are there in total?\n(Hint: Add them up!)`,
-  //       working: [
-  //         {
-  //           operands: [50, 30],
-  //           operator: "+",
-  //           answer: 80
-  //         }
-  //       ],
-  //       answer: 80
-  //     },
-  //     {
-  //       question: `If each child loses two balloons, how many balloons will be left?\n(Hint: First find out how many balloons are lost)`,
-  //       working: [
-  //         {
-  //           operands: [2, 16],
-  //           operator: "x",
-  //           answer: 16
-  //         },
-  //         {
-  //           operands: [80, 16],
-  //           operator: "-",
-  //           answer: 64
-  //         }
-  //       ],
-  //       answer: 64
-  //     },
-  //   ]
-  // },
+  {
+    prompt: `There are ten children. Each child is pulling a wagon.\nThere are five blocks in each wagon.\nEach child holds three kites.`,
+    subQuestions: [
+      {
+        question: "How many blocks are there altogether?",
+        working: [
+          {
+            operands: [10, 5],
+            operator: "x",
+            answer: 50
+          }
+        ],
+        answer: 50
+      },
+      {
+        question: "How many kites are there altogether?",
+        working: [
+          {
+            operands: [10, 3],
+            operator: "x",
+            answer: 30
+          }
+        ],
+        answer: 30
+      }
+    ]
+  },
+  {
+    prompt: `There are three girls and five boys. Each child has ten balloons.`,
+    subQuestions: [
+      {
+        question: "How many balloons do the girls have?",
+        working: [
+          {
+            operands: [3, 10],
+            operator: "x",
+            answer: 30
+          }
+        ],
+        answer: 30
+      },
+      {
+        question: "How many balloons do the boys have?",
+        working: [
+          {
+            operands: [5, 10],
+            operator: "x",
+            answer: 50
+          }
+        ],
+        answer: 50
+      },
+      {
+        question: `How many balloons are there in total?\n(Hint: Add them up!)`,
+        working: [
+          {
+            operands: [50, 30],
+            operator: "+",
+            answer: 80
+          }
+        ],
+        answer: 80
+      },
+      {
+        question: `If each child loses two balloons, how many balloons will be left?\n(Hint: First find out how many balloons are lost)`,
+        working: [
+          {
+            operands: [2, 16],
+            operator: "x",
+            answer: 16
+          },
+          {
+            operands: [80, 16],
+            operator: "-",
+            answer: 64
+          }
+        ],
+        answer: 64
+      },
+    ]
+  },
   {
     prompt: `Seven people are standing with their right hands in the air\nand their left hands hidden behind their backs.`,
     subQuestions: [
@@ -298,53 +298,53 @@ export const questions = [
   //     },
   //   ]
   // },
-  // {
-  //   prompt: `Here are ten plants.\nThere are five flowers on each plant.\nTwo of the flowers are red and three are yellow.`,
-  //   subQuestions: [
-  //     {
-  //       question: "How many red flowers in total?",
-  //       working: [
-  //         {
-  //           operands: [10, 2],
-  //           operator: "x",
-  //           answer: 20
-  //         }
-  //       ],
-  //       answer: 20
-  //     },
-  //     {
-  //       question: `How many yellow flowers in total?`,
-  //       working: [
-  //         {
-  //           operands: [10, 3],
-  //           operator: "x",
-  //           answer: 30
-  //         }
-  //       ],
-  //       answer: 30
-  //     },
-  //     {
-  //       question: `How many flowers are there in all?`,
-  //       working: [
-  //         {
-  //           operands: [30, 20],
-  //           operator: "+",
-  //           answer: 50
-  //         }
-  //       ],
-  //       answer: 50
-  //     },
-  //     {
-  //       question: `How many more plants would we need to get one hundred flowers?`,
-  //       working: [
-  //         {
-  //           operands: [100, 50],
-  //           operator: "-",
-  //           answer: 50
-  //         }
-  //       ],
-  //       answer: 50
-  //     }
-  //   ]
-  // }
+  {
+    prompt: `Here are ten plants.\nThere are five flowers on each plant.\nTwo of the flowers are red and three are yellow.`,
+    subQuestions: [
+      {
+        question: "How many red flowers in total?",
+        working: [
+          {
+            operands: [10, 2],
+            operator: "x",
+            answer: 20
+          }
+        ],
+        answer: 20
+      },
+      {
+        question: `How many yellow flowers in total?`,
+        working: [
+          {
+            operands: [10, 3],
+            operator: "x",
+            answer: 30
+          }
+        ],
+        answer: 30
+      },
+      {
+        question: `How many flowers are there in all?`,
+        working: [
+          {
+            operands: [30, 20],
+            operator: "+",
+            answer: 50
+          }
+        ],
+        answer: 50
+      },
+      {
+        question: `How many more plants would we need to get one hundred flowers?`,
+        working: [
+          {
+            operands: [100, 50],
+            operator: "-",
+            answer: 50
+          }
+        ],
+        answer: 50
+      }
+    ]
+  }
 ]
